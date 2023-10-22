@@ -1,10 +1,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
-#define SIZE_LIMIT ((1 << 16) - 1)
 
 struct deque {
-  bool queue[SIZE_LIMIT];
+  bool *queue;
   int16_t size;
   int16_t front;
   int16_t rear;
@@ -28,9 +27,10 @@ bool is_empty(struct deque*);
 bool get_front(struct deque*);
 bool get_rear(struct deque*);
 
-struct deque initialise_deque() {
+struct deque initialise_deque(int n) {
   struct deque *dq = malloc(sizeof(struct deque));
-  dq->size = 0;
+  dq->queue = malloc(n*sizeof(bool));
+  dq->size = n;
   dq->front = dq->rear = -1;
   dq->insert_front = insert_front;
   dq->insert_rear = insert_rear;
@@ -40,6 +40,12 @@ struct deque initialise_deque() {
   dq->is_empty = is_empty;
   dq->get_front = get_front;
   dq->get_rear = get_rear;
+}
+
+void free_deque(struct deque* dq) {
+  free(dq->queue);
+  dq->queue = NULL;
+  free(dq);
 }
 
 bool is_full(struct deque* dq) {
