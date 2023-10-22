@@ -42,3 +42,10 @@ long int deque_bool_to_number(const struct deque* input) {
 
   return output;
 }
+
+size_t divide_up(size_t dividend, size_t divisor) {
+  //Error control for zero division is yet to be implemented
+  return (dividend + divisor - 1) / divisor;
+}
+
+
