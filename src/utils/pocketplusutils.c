@@ -48,4 +48,21 @@ size_t divide_up(size_t dividend, size_t divisor) {
   return (dividend + divisor - 1) / divisor;
 }
 
+char* bool_to_string(const struct deque* boolvector) {
+  int n = divide_up(boolvector->size, 8);
+  char* ret = calloc(n, 0);
 
+  int counter = 0;
+  int out = n - 1;
+  int shift = 0;
+
+  for (int i = boolvector->size - 1; i >= 0; i--) {
+    ret[out] |= (boolvector->queue[i]) << shift;
+    if (++shift == 8) {
+      ++out;
+      shift = 0;
+    }
+    counter++;
+  }
+  return ret;
+}
