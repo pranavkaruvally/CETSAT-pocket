@@ -28,3 +28,17 @@ struct deque number_to_deque_bool(const long int input, const unsigned int lengt
 
   return out;
 }
+
+long int deque_bool_to_number(const struct deque* input) {
+  long int output = 0;
+  unsigned int bit_shift = 0;
+  long int one = 1;
+
+  for (int i=0; i < input->size; i++, bit_shift += 1) {
+    if (input->queue[i]) {
+      output |= one << bit_shift;
+    }
+  }
+
+  return output;
+}
