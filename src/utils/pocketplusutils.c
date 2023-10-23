@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "../data_structures/deque.c"
 
@@ -15,14 +16,14 @@ void print_vector(struct deque* in) {
   printf("\n");
 }
 
-struct deque number_to_deque_bool(const long int input, const unsigned int length) {
-  struct deque out = initialise_deque(64);
+struct deque* number_to_deque_bool(const long int input, const unsigned int length) {
+  struct deque* out = initialize_deque(64);
   for (unsigned int i = 0; (i < length) && (i < 32); i++) {
-    out.insert_front(&out, (input >> 1) & 1);
+    out->insert_front(out, (input >> 1) & 1);
   }
   if (length > 32) {
     for (unsigned int i=32; i < length; i++) {
-      out.insert_front(&out, 0);
+      out->insert_front(out, 0);
     }
   }
 
@@ -67,8 +68,8 @@ char* bool_to_string(const struct deque* boolvector) {
   return ret;
 }
 
-void write_bool_deque_to_file(const char* filename, const struct deque* in) {
-  FILE* output_file = fopen(filename, "wb");
+void write_bool_deque_to_file(const char* file_name, const struct deque* in) {
+  FILE* output_file = fopen(file_name, "wb");
   if (output_file == NULL) {
     //Write debugging message for failure of opening
     return;
@@ -77,4 +78,27 @@ void write_bool_deque_to_file(const char* filename, const struct deque* in) {
   char* bool_string_to_write = bool_to_string(in);
   fprintf(output_file, "%s", bool_string_to_write);
   fclose(output_file);
+}
+
+struct deque* read_bool_deque_from_file(const char* file_name) {
+  FILE* input_file = fopen(file_name, "rb");
+  if (input_file == NULL) {
+    //Write debugging message for failure of opening 
+    exit(1);
+  }
+
+  char buffer_char[64];
+  fgets(buffer_char, 64, input_file);
+  int string_length = strlen(buffer_char);
+  struct deque* buffer_bool = initialize_deque(string_length);
+
+  for (int c=0; c < string_length; c++) {
+    for (int i=0; i < 8; i++) {
+      buffer_bool->insert_front(
+        buffer_bool,
+        ((unsigned char)(buffer_char[c]) >> i) & 1
+      );
+    }
+  }
+  return buffer_bool;
 }
