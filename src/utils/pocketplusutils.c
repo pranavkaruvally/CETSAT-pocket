@@ -66,3 +66,15 @@ char* bool_to_string(const struct deque* boolvector) {
   }
   return ret;
 }
+
+void write_bool_deque_to_file(const char* filename, const struct deque* in) {
+  FILE* output_file = fopen(filename, "wb");
+  if (output_file == NULL) {
+    //Write debugging message for failure of opening
+    return;
+  }
+
+  char* bool_string_to_write = bool_to_string(in);
+  fprintf(output_file, "%s", bool_string_to_write);
+  fclose(output_file);
+}
