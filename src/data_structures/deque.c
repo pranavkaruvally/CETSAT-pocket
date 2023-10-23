@@ -27,7 +27,7 @@ bool is_empty(struct deque*);
 bool get_front(struct deque*);
 bool get_rear(struct deque*);
 
-struct deque initialise_deque(int n) {
+struct deque* initialize_deque(int n) {
   struct deque *dq = malloc(sizeof(struct deque));
   dq->queue = malloc(n*sizeof(bool));
   dq->size = n;
@@ -40,6 +40,8 @@ struct deque initialise_deque(int n) {
   dq->is_empty = is_empty;
   dq->get_front = get_front;
   dq->get_rear = get_rear;
+
+  return dq;
 }
 
 void free_deque(struct deque* dq) {
