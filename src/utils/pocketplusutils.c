@@ -102,3 +102,17 @@ struct deque* read_bool_deque_from_file(const char* file_name) {
   }
   return buffer_bool;
 }
+
+void pop_n_from_front(struct deque* in, const unsigned int n) {
+  if (in->size > 0) {
+    //Throw not enough elements Error
+    return;
+  }
+  for (unsigned int i = 0; i < n; i++) {
+    if (in->size > 0) {
+      in->delete_front(in);
+    } else {
+      i = n;
+    }
+  }
+}
